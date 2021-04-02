@@ -45,15 +45,18 @@ namespace TD10
                     {
                         if (damier[i, j] == 0)
                         {
-                            Console.Write("–  ");
+                            Console.Write(" – ");
                         }
                         else
                         {
-                            Console.Write("*  ");
+                            Console.Write(" O ");
                         }
                     }
                     Console.WriteLine();
                 }
+            }
+            else { if (damier == null) { Console.WriteLine("Table null"); }
+            if(damier.Length == 0) { Console.WriteLine("Table void"); }
             }
         }
 
@@ -146,6 +149,37 @@ namespace TD10
             }
 
 
+
+
+
+            return nbVoisins;
+        }
+
+        static int nombre_voisins2(int[,] damier, int i0, int j0)
+        {
+            //Renvoie le nombre de voisins vivant de la cellule (i0,j0)
+            int nbVoisins = 0;
+
+            if (damier != null && damier.Length != 0 && i0 >= 0 && j0 >= 0 && i0 < damier.GetLength(0) && j0 < damier.GetLength(1))
+            {
+                for (int i = i0 - 1; i <= i0 + 1; i++)
+                {
+                    for (int j = j0 - 1; j <= j0 + 1; j++)
+                    {
+
+                        if (i >= 0 && i < damier.GetLength(0) && j >= 0 && j < damier.GetLength(1))
+                        {
+                            if (damier[i, j] == 1 && !(i == 0 && j == 0))
+                            {
+                                nbVoisins++;
+                            }
+
+                        }
+
+                    }
+                }
+            }
+
             return nbVoisins;
         }
 
@@ -163,19 +197,19 @@ namespace TD10
                     for (int j = 0; j < damier.GetLength(1); j++)
                     {
                         gen[i, j] = damier[i, j];
-                        if(damier[i, j]==1 && (nombre_voisins(damier,i,j)==2 || nombre_voisins(damier, i, j) == 3) )
+                        if(damier[i, j]==1 && (nombre_voisins2(damier,i,j)==2 || nombre_voisins2(damier, i, j) == 3) )
                         {
                             gen[i, j] = 1;
                         }
-                        if(damier[i,j]==1 && nombre_voisins(damier, i, j) < 2)
+                        if(damier[i,j]==1 && nombre_voisins2(damier, i, j) < 2)
                         {
                             gen[i, j] = 0;
                         }
-                        if(damier[i,j]==1 && nombre_voisins(damier, i, j) > 3)
+                        if(damier[i,j]==1 && nombre_voisins2(damier, i, j) > 3)
                         {
                             gen[i, j] = 0;
                         }
-                        if(damier[i,j]==0 && nombre_voisins(damier, i, j) == 3)
+                        if(damier[i,j]==0 && nombre_voisins2(damier, i, j) == 3)
                         {
                             gen[i, j] = 1;
                         }
@@ -208,12 +242,12 @@ namespace TD10
 
         static void Main(string[] args)
         {
-
+            Console.WriteLine("****** Game of Life *******");
             int i = 0;
             int nbCycles = 0;
 
             //Saisir nb ligne
-            Console.Write("Nombre de lignes : ");
+            Console.Write("Number of lines : ");
             int ligne = -1;
             do
             {
@@ -222,7 +256,7 @@ namespace TD10
 
 
             // saisir nb colonne
-            Console.Write("Nombre de colonnes : ");
+            Console.Write("Number of columns : ");
             int colonne = -1;
             do
             {
@@ -236,7 +270,7 @@ namespace TD10
             //declarer nouvelle matrice
 
             //saisir le nombre de cycle
-            Console.Write("Nombre de cycles : ");
+            Console.Write("Number of cycles : ");
             do
             {
                 nbCycles = Convert.ToInt32(Console.ReadLine());
@@ -262,14 +296,14 @@ namespace TD10
 
                 copie_damier(damier, generation);
 
-                Console.ReadKey();
-                
+                //Console.ReadKey();
+                System.Threading.Thread.Sleep(100);
                 i++;
 
             }
 
 
-
+            Console.WriteLine("End of Game");
 
             //Console.ReadKey();
         }
